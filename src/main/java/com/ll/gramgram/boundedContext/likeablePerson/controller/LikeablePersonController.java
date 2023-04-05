@@ -5,17 +5,19 @@ import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.service.LikeablePersonService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/likeablePerson")
@@ -59,4 +61,24 @@ public class LikeablePersonController {
 
         return "usr/likeablePerson/list";
     }
+
+
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) {
+        Optional<LikeablePerson> optionalLikeablePerson = likeablePersonService.findById(id);
+
+        LikeablePerson likeablePerson = optionalLikeablePerson.get();
+
+        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(rq.getMember(), id);
+
+        if (deleteRsData.isFail()) {
+            return rq.historyBack(deleteRsData);
+        }
+
+        return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
+    }
+
+
+
 }
