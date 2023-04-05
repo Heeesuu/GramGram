@@ -20,7 +20,6 @@
             <li th:each="likeablePerson: ${likeablePeople}" class="p-10 max-w-md flex flex-col gap-4">
 
                 <div>
-                    <div class="fa-solid fa-heart fa-beat text-[1rem]"></div>
                 내가 좋아하는 사람의 ID : <span class="badge" th:text="${likeablePerson.toInstaMember.username}"></span>
                 </div>
                 <div>
