@@ -50,7 +50,25 @@ public class LikeablePersonService {
         return likeablePersonRepository.findByFromInstaMemberId(fromInstaMemberId);
     }
 
+    public Optional<LikeablePerson> findById(Integer id) {
+        return likeablePersonRepository.findById(id);
+    }
 
+    @Transactional
+    public RsData<LikeablePerson> delete(Member member, Integer id){
+        Optional<LikeablePerson> opLikeablePerson = likeablePersonRepository.findById(id);
+
+        LikeablePerson likeablePerson = opLikeablePerson.get();
+
+        if(!likeablePerson.getFromInstaMember().equals(member.getInstaMember())){
+            return RsData.of("F-1", "해당 호감상대를 삭제할 수 없습니다.");
+        }
+
+        String toInstaMemberUsername = likeablePerson.getToInstaMember().getUsername();
+        likeablePersonRepository.delete(likeablePerson);
+
+        return RsData.of("S-1", "인스타그램 유저(%s)를 호감상대에서 삭제하였습니다.".formatted(toInstaMemberUsername), likeablePerson);
+    }
 
 
 
