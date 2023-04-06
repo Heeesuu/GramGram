@@ -66,7 +66,7 @@ public class LikeablePersonController {
 
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id, RedirectAttributes ra) {
+    public String delete(@PathVariable Integer id) {
         RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(rq.getMember(), id);
 
         if (deleteRsData.isFail()) {
