@@ -66,9 +66,21 @@
 인스타 아이디에 한글이 작성되었을때 에러페이지로 이동하는데, q.redirectWithMsg 함수를 이용하여 기존 페이지로 리디렉션을 
 구현하려고했으나 하지 못했습니다.
 
-**[Refactoring]**
+### **[Refactoring]**
 
-    - UI 디자인 개선 작업
+먼저 서비스에서 자료형이 Optional 이기 때문에 isEmpty()를 사용하여 값이 null인지 아닌지 확인하는 작업이 빠져있어서 추가를 하였습니다.
+그리고 deleteById 라는 메소드를 쓰면 매개변수를 id 로 삭제할 수 있다는것을 알려주셔서 적용하였고,
+
+컨트롤러에서
+```java
+Optional opLikeablePerson = likeablePersonRepository.findById(id);
+LikeablePerson likeablePerson = opLikeablePerson.get();
+```
+위와같은 코드를 중복 제거하여 코드가 짧아지고 가독성이 더욱 좋아졌습니다.
+
+
+
+
 
 
  
