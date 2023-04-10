@@ -39,7 +39,9 @@ public class LikeablePersonService {
             return RsData.of("F-3", "호감상대는 최대 10명까지만 등록 할 수 있습니다.");
         }
 
-        Optional<LikeablePerson> existingLikeablePerson = likeablePersonRepository.findByToInstaMemberUsername(username);
+        Optional<LikeablePerson> existingLikeablePerson = likeablePersonRepository.
+                findByToInstaMemberUsernameAndAttractiveTypeCode(username, attractiveTypeCode);
+
         if (existingLikeablePerson.isPresent()) {
             return RsData.of("F-4", "이미 등록된 ID입니다.");
         }
