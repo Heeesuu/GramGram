@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,7 +24,7 @@ public class LikeablePersonService {
     @Transactional
     public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
 
-        if ( member.hasConnectedInstaMember() == false ) {
+        if (member.hasConnectedInstaMember() == false) {
             return RsData.of("F-2", "먼저 본인의 인스타그램 아이디를 입력해야 합니다.");
         }
 
@@ -35,34 +34,45 @@ public class LikeablePersonService {
 
         Long fromInstaMemberId = member.getInstaMember().getId();
 
-        if (likeablePersonRepository.countByFromInstaMemberId(fromInstaMemberId) >= 10){
+        if (likeablePersonRepository.countByFromInstaMemberId(fromInstaMemberId) >= 10) {
             return RsData.of("F-3", "호감상대는 최대 10명까지만 등록 할 수 있습니다.");
         }
 
-        Optional<LikeablePerson> existingLikeablePerson = likeablePersonRepository.
-                findByToInstaMemberUsernameAndAttractiveTypeCode(username, attractiveTypeCode);
+        Optional<LikeablePerson> existingLikeablePersonAndType = likeablePersonRepository
+                .findByToInstaMemberUsername(username)
+                .filter(p -> p.getAttractiveTypeCode() == attractiveTypeCode);
 
-        if (existingLikeablePerson.isPresent()) {
+        if (existingLikeablePersonAndType.isPresent()) {
             return RsData.of("F-4", "이미 등록된 ID입니다.");
         }
 
+        Optional<LikeablePerson> existingLikeablePerson = likeablePersonRepository
+                .findByToInstaMemberUsername(username)
+                .filter(p -> p.getAttractiveTypeCode() != attractiveTypeCode);
+
+        if (existingLikeablePerson.isPresent()) {
+            existingLikeablePerson.get().setAttractiveTypeCode(attractiveTypeCode);
+            likeablePersonRepository.save(existingLikeablePerson.get());
+            return RsData.of("S-2", "인스타 유저(%s)의 매력포인트가 수정되었습니다.".formatted(username));
+        }
 
 
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
-        LikeablePerson likeablePerson = LikeablePerson
-                .builder()
-                .fromInstaMember(member.getInstaMember()) // 호감을 표시하는 사람의 인스타 멤버
-                .fromInstaMemberUsername(member.getInstaMember().getUsername()) // 중요하지 않음
-                .toInstaMember(toInstaMember) // 호감을 받는 사람의 인스타 멤버
-                .toInstaMemberUsername(toInstaMember.getUsername()) // 중요하지 않음
-                .attractiveTypeCode(attractiveTypeCode) // 1=외모, 2=능력, 3=성격
-                .build();
+            LikeablePerson likeablePerson = LikeablePerson
+                    .builder()
+                    .fromInstaMember(member.getInstaMember()) // 호감을 표시하는 사람의 인스타 멤버
+                    .fromInstaMemberUsername(member.getInstaMember().getUsername()) // 중요하지 않음
+                    .toInstaMember(toInstaMember) // 호감을 받는 사람의 인스타 멤버
+                    .toInstaMemberUsername(toInstaMember.getUsername()) // 중요하지 않음
+                    .attractiveTypeCode(attractiveTypeCode) // 1=외모, 2=능력, 3=성격
+                    .build();
 
-        likeablePersonRepository.save(likeablePerson); // 저장
+            likeablePersonRepository.save(likeablePerson); // 저장
 
-        return RsData.of("S-1", "입력하신 인스타유저(%s)를 호감상대로 등록되었습니다.".formatted(username), likeablePerson);
-    }
+            return RsData.of("S-1", "입력하신 인스타유저(%s)를 호감상대로 등록되었습니다.".formatted(username), likeablePerson);
+        }
+
 
     public List<LikeablePerson> findByFromInstaMemberId(Long fromInstaMemberId) {
         return likeablePersonRepository.findByFromInstaMemberId(fromInstaMemberId);
