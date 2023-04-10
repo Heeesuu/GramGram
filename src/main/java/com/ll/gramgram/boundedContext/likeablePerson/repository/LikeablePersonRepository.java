@@ -4,11 +4,13 @@ import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LikeablePersonRepository extends JpaRepository<LikeablePerson, Integer> {
     List<LikeablePerson> findByFromInstaMemberId(Long fromInstaMemberId);
-    long count();
 
     long countByFromInstaMemberId(Long fromInstaMemberId);
+
+    Optional<LikeablePerson> findByToInstaMemberUsername(String username);
 
 }

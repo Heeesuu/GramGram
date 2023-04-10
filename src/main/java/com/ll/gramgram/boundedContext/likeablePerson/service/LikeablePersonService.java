@@ -24,6 +24,7 @@ public class LikeablePersonService {
 
     @Transactional
     public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
+
         if ( member.hasConnectedInstaMember() == false ) {
             return RsData.of("F-2", "먼저 본인의 인스타그램 아이디를 입력해야 합니다.");
         }
@@ -37,6 +38,12 @@ public class LikeablePersonService {
         if (likeablePersonRepository.countByFromInstaMemberId(fromInstaMemberId) >= 10){
             return RsData.of("F-3", "호감상대는 최대 10명까지만 등록 할 수 있습니다.");
         }
+
+        Optional<LikeablePerson> existingLikeablePerson = likeablePersonRepository.findByToInstaMemberUsername(username);
+        if (existingLikeablePerson.isPresent()) {
+            return RsData.of("F-4", "이미 등록된 ID입니다.");
+        }
+
 
 
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
