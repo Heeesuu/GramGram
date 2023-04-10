@@ -21,6 +21,7 @@ public class LikeablePersonService {
     private final LikeablePersonRepository likeablePersonRepository;
     private final InstaMemberService instaMemberService;
 
+
     @Transactional
     public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
         if ( member.hasConnectedInstaMember() == false ) {
@@ -30,6 +31,13 @@ public class LikeablePersonService {
         if (member.getInstaMember().getUsername().equals(username)) {
             return RsData.of("F-1", "본인을 호감상대로 등록할 수 없습니다.");
         }
+
+        Long fromInstaMemberId = member.getInstaMember().getId();
+
+        if (likeablePersonRepository.countByFromInstaMemberId(fromInstaMemberId) >= 10){
+            return RsData.of("F-3", "호감상대는 최대 10명까지만 등록 할 수 있습니다.");
+        }
+
 
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
@@ -74,4 +82,7 @@ public class LikeablePersonService {
 
         return RsData.of("S-1", "인스타그램 유저(%s)를 호감상대에서 삭제하였습니다.".formatted(toInstaMemberUsername), likeablePerson);
     }
+
+
+
 }
