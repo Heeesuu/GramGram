@@ -15,18 +15,30 @@
         </div>
     </th:block>
 
+
     <th:block th:if="${@rq.member.hasConnectedInstaMember}">
         <ul>
+            <span class="p-10 max-w-md flex gap-4">
+                내가 좋아하는 사람의 수: <span class="badge" th:text="${#lists.size(likeablePeople)}"></span>
+            </span>
+
+            <span class="p-10 max-w-md flex gap-4">
+    나를 좋아하는 사람의 수: <span class="badge"
+                         th:text="${#lists.size(likeablePeople.?[toInstaMember.id == @rq.member.instaMember.id])}"></span>
+            </span>
+
+
             <li th:each="likeablePerson: ${likeablePeople}" class="p-10 max-w-md flex flex-col gap-4">
 
                 <div>
-                내가 좋아하는 사람의 ID : <span class="badge" th:text="${likeablePerson.toInstaMember.username}"></span>
+                    내가 좋아하는 사람의 ID : <span class="badge" th:text="${likeablePerson.toInstaMember.username}"></span>
                 </div>
                 <div>
-                매력 포인트 : <span class="toInstaMember_attractiveTypeDisplayName"
-                      th:text="${likeablePerson.attractiveTypeDisplayName}"></span>
+                    매력 포인트 : <span class="toInstaMember_attractiveTypeDisplayName"
+                                   th:text="${likeablePerson.attractiveTypeDisplayName}"></span>
                 </div>
-                <a class="btn" th:href="@{|delete/${likeablePerson.id}|}" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
+                <a class="btn" th:href="@{|delete/${likeablePerson.id}|}"
+                   onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
             </li>
         </ul>
     </th:block>

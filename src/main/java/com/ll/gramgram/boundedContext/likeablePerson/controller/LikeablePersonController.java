@@ -76,4 +76,5 @@ public class LikeablePersonController {
         return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
     }
 
+
 }
