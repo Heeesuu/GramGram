@@ -19,6 +19,7 @@ import java.util.Optional;
 public class LikeablePersonService {
     private final LikeablePersonRepository likeablePersonRepository;
     private final InstaMemberService instaMemberService;
+    private final int MaxLikeablePersonCount = 10;
 
 
     @Transactional
@@ -34,8 +35,8 @@ public class LikeablePersonService {
 
         Long fromInstaMemberId = member.getInstaMember().getId();
 
-        if (likeablePersonRepository.countByFromInstaMemberId(fromInstaMemberId) >= 10) {
-            return RsData.of("F-3", "호감상대는 최대 10명까지만 등록 할 수 있습니다.");
+        if (likeablePersonRepository.countByFromInstaMemberId(fromInstaMemberId) >= MaxLikeablePersonCount) {
+            return RsData.of("F-3", "호감상대는 최대 "+ MaxLikeablePersonCount +"명까지만 등록 할 수 있습니다.");
         }
 
         Optional<LikeablePerson> existingLikeablePersonAndType = likeablePersonRepository
