@@ -26,10 +26,10 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             client-authentication-method: POST
-#          google:
-#            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
-#            client-name: Google
-#            scope: profile
+          google:
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            client-name: Google
+            scope: profile
 #          facebook:
 #            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
 #            client-name: Facebook
