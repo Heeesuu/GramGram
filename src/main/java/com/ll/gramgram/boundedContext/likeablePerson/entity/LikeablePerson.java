@@ -9,9 +9,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -40,7 +42,19 @@ public class LikeablePerson extends BaseEntity {
 
     // 초 단위에서 올림 해주세요.
     public String getModifyUnlockDateRemainStrHuman() {
-        return "2시간 16분";
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime unlockDate = AppConfig.genLikeablePersonModifyUnlockDate();
+        Duration duration = Duration.between(now, unlockDate);
+
+        if (duration.isNegative()) {
+            // 쿨타임이 이미 끝났다면 "종료"를 반환합니다.
+            return "종료";
+        } else {
+            // 쿨타임이 남았다면 해당 시간 간격을 반환합니다.
+            long hours = duration.toHours();
+            long minutes = duration.toMinutes() % 60;
+            return hours + "시간 " + minutes + "분";
+        }
     }
 
     public RsData updateAttractionTypeCode(int attractiveTypeCode) {
