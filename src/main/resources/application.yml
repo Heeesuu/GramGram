@@ -30,10 +30,10 @@ spring:
             redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             client-name: Google
             scope: profile
-#          facebook:
-#            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
-#            client-name: Facebook
-#            scope:
+          facebook:
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            client-name: Facebook
+            scope:
 #          instagram:
 #            provider: instagram
 #            scope: user_profile,user_media
