@@ -212,4 +212,15 @@ public class LikeablePersonService {
 
         return RsData.of("S-1", "호감표시취소가 가능합니다.");
     }
+
+
+    //추가한 부분
+    public RsData canModifyUnlocked(Member member, LikeablePerson likeablePerson) {
+        if (!likeablePerson.isModifyUnlocked()) {
+            return RsData.of("F-10", "3시간 동안은 호감취소와 호감사유변경을 할 수 없습니다.");
+
+        }
+
+        return RsData.of("S-3","호감취소와 호감사유변경이 가능합니다.");
+    }
 }
