@@ -51,14 +51,15 @@
                         인스타 아이디
                     </span>
                 </label>
-                <input type="text" name="username" placeholder="인스타 아이디" class="input input-bordered" autofocus
-                       onchange="$(this).keyup();"
-                       onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
-                       onpaste="setTimeoutZero(() => $(this).keyup());"/>
+
                 <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
-                   class="block mt-3 text-sm break-all underline text-blue-400">
+                   class="block mb-3 text-sm break-all underline text-blue-400">
                     <span>https://instagram.com/</span><span class="text-red-300"></span>
                 </a>
+                <input type="text" name="username" placeholder="인스타 아이디" class="input input-bordered" autofocus
+                       onchange="$(this).keyup();"
+                       onkeyup="$(this).prev().children(':last-child').text(this.value.trim());"
+                       onpaste="setTimeoutZero(() => $(this).keyup());"/>
                 <script>
                     // input : 태그가 input 인 녀석 선택
                     // input[name="username"] 태그가 input 이고 name 속성의 값이 username 인 녀석을 선택
@@ -67,7 +68,6 @@
                     $(`input[name="username"]:last`).keyup();
                 </script>
             </div>
-
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">
@@ -75,7 +75,6 @@
                         성별
                     </span>
                 </label>
-
                 <!-- 라벨을 클릭하면 라벨의 하위요소인 버튼(체크,라디오,일반 등)이 클릭되는 효과) -->
                 <div class="flex justify-center gap-4">
                     <label class="flex gap-2 items-center cursor-pointer">
@@ -85,7 +84,6 @@
                             여성
                         </span>
                     </label>
-
                     <label class="flex gap-2 items-center cursor-pointer">
                         <input type="radio" name="gender" value="M" class="radio peer">
                         <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
@@ -94,9 +92,7 @@
                         </span>
                     </label>
                 </div>
-
             </div>
-
             <button id="btn-insta-member-connect-1" class="btn btn-block btn-primary gap-1">
                 <i class="fa-brands fa-instagram"></i>
                 <span>인스타 아이디 입력</span>
@@ -105,6 +101,5 @@
     </div>
 </main>
 </body>
-
 </html>
 
