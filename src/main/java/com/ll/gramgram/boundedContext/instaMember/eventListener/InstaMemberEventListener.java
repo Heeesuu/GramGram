@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class InstaMemberEventListener {
     private final InstaMemberService instaMemberService;
 
