@@ -25,6 +25,9 @@ public class NotificationEventListener {
 
     @EventListener
     public void listen(EventAfterModifyAttractiveType event) {
+        LikeablePerson likeablePerson = event.getLikeablePerson();
+
+        notificationService.makeModifyAttractive(likeablePerson, event.getOldAttractiveTypeCode());
         // 누군가가 호감표시를 한 경우
         log.debug("EventAfterLike event : {}", event);
     }
