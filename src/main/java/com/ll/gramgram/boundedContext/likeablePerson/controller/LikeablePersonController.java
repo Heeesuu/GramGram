@@ -94,6 +94,10 @@ public class LikeablePersonController {
 
         if (canModifyRsData.isFail()) return rq.historyBack(canModifyRsData);
 
+        RsData canIsModifyUnlockedRsData = likeablePersonService.canModifyUnlocked(rq.getMember(), likeablePerson);
+        if (canIsModifyUnlockedRsData.isFail()) return "error/404";
+
+
         model.addAttribute("likeablePerson", likeablePerson);
 
         return "usr/likeablePerson/modify";
