@@ -69,6 +69,7 @@
                                 <a th:href="@{|modify/${likeablePerson.id}|}" class="btn btn-sm btn-outline"
                                    th:classappend="${!likeablePerson.modifyUnlocked ? 'btn-disabled' : ''}">
                                     <i class="fa-solid fa-pen-to-square"></i>
+
                                     호감사유 변경
                                 </a>
                                 <a class="btn btn-sm btn-outline"
@@ -86,10 +87,9 @@
                             <div th:unless="${likeablePerson.modifyUnlocked}"
                                  class="text-center text-gray-500 text-sm mt-2">
                                 <span class="text-red-400">호감사유 변경</span>과 <span
-                                    class="text-red-400">호감취소</span>는
-                                <span class="badge badge-primary"
-                                    th:text="${likeablePerson.modifyUnlockDateRemainStrHuman}"></span>
-                                후 에 가능합니다.
+                                    class="text-red-400">호감취소</span>는 <span
+                                    class="badge badge-primary"
+                                    th:text="${likeablePerson.modifyUnlockDateRemainStrHuman}"></span>에 가능합니다.
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
         <div class="text-center mt-4">
             <a th:if="${@rq.member.hasConnectedInstaMember}" href="like" class="btn btn-link">
                 <span>
-                     <i class="fa-solid fa-heart-circle-plus"></i>
+                    <i class="fa-solid fa-heart-circle-plus"></i>
                     호감표시&nbsp;
                 </span>
             </a>
@@ -116,3 +116,4 @@
 </body>
 
 </html>
+

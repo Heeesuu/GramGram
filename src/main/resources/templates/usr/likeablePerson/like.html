@@ -72,7 +72,6 @@
                             상대방 인스타 아이디
                         </span>
                     </label>
-
                     <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
                        class="block mb-3 text-sm break-all underline text-blue-400">
                         <span>https://instagram.com/</span><span class="text-red-300"></span>
@@ -89,6 +88,7 @@
                         $(`input[name="username"]:last`).keyup();
                     </script>
                 </div>
+
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">
@@ -96,6 +96,7 @@
                             호감사유
                         </span>
                     </label>
+
                     <!-- 라벨을 클릭하면 라벨의 하위요소인 버튼(체크,라디오,일반 등)이 클릭되는 효과) -->
                     <div class="flex justify-center gap-4">
                         <label class="flex gap-2 items-center cursor-pointer">
@@ -105,6 +106,7 @@
                                 외모
                             </span>
                         </label>
+
                         <label class="flex gap-2 items-center cursor-pointer">
                             <input type="radio" name="attractiveTypeCode" value="2" class="radio peer">
                             <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
@@ -112,6 +114,7 @@
                                 성격
                             </span>
                         </label>
+
                         <label class="flex gap-2 items-center cursor-pointer">
                             <input type="radio" name="attractiveTypeCode" value="3" class="radio peer">
                             <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
@@ -120,12 +123,15 @@
                             </span>
                         </label>
                     </div>
+
                 </div>
+
                 <button id="btn-like-1" class="btn btn-block btn-primary gap-1">
                     <i class="fa-solid fa-heart-circle-plus"></i>
                     <span>호감표시</span>
                 </button>
             </form>
+
             <div class="text-center mt-4">
                 <a th:if="${@rq.member.hasConnectedInstaMember}" href="list" class="btn btn-link">
                     <span>
@@ -144,4 +150,6 @@
     </th:block>
 </main>
 </body>
+
 </html>
+
