@@ -130,29 +130,10 @@ public class LikeablePersonController {
     public String showToList(@RequestParam(value = "gender", required = false) String gender, Model model) {
         InstaMember instaMember = rq.getMember().getInstaMember();
 
-        // 인스타인증을 했는지 체크
         if (instaMember != null) {
-
-            // 해당 인스타회원이 좋아하는 사람들 목록
-            List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
-
-            if (gender != null) {
-
-                if (gender.equals("M")) {
-                    likeablePeople = likeablePeople.stream()
-                            .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("남성"))
-                            .collect(Collectors.toList());
-                } else if (gender.equals("W")) {
-                    likeablePeople = likeablePeople.stream()
-                            .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("여성"))
-                            .collect(Collectors.toList());
-                }
-
-            }
-
+            List<LikeablePerson> likeablePeople = likeablePersonService.getLikeablePeopleByGender(gender, instaMember);
             model.addAttribute("likeablePeople", likeablePeople);
         }
-
 
         return "usr/likeablePerson/toList";
     }

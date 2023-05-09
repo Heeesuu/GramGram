@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -230,10 +231,26 @@ public class LikeablePersonService {
         return RsData.of("S-3","호감취소와 호감사유변경이 가능합니다.");
     }
 
+    public List<LikeablePerson> getLikeablePeopleByGender(String gender, InstaMember instaMember) {
+        List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
 
+        if (gender != null) {
+            if (gender.equals("M")) {
+                likeablePeople = likeablePeople.stream()
+                        .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("남성"))
+                        .collect(Collectors.toList());
+            } else if (gender.equals("W")) {
+                likeablePeople = likeablePeople.stream()
+                        .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("여성"))
+                        .collect(Collectors.toList());
+            }
+        }
 
-
-
-
-
+        return likeablePeople;
+    }
 }
+
+
+
+
+
