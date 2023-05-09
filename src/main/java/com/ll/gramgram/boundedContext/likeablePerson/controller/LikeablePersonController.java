@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/usr/likeablePerson")
@@ -126,15 +127,33 @@ public class LikeablePersonController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/toList")
-    public String showToList(Model model) {
+    public String showToList(@RequestParam(value = "gender", required = false) String gender, Model model) {
         InstaMember instaMember = rq.getMember().getInstaMember();
 
         // 인스타인증을 했는지 체크
         if (instaMember != null) {
+
             // 해당 인스타회원이 좋아하는 사람들 목록
             List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
+
+            if (gender != null) {
+
+
+                if (gender.equals("M")) {
+                    likeablePeople = likeablePeople.stream()
+                            .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("남성"))
+                            .collect(Collectors.toList());
+                } else if (gender.equals("W")) {
+                    likeablePeople = likeablePeople.stream()
+                            .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("여성"))
+                            .collect(Collectors.toList());
+                }
+
+            }
+
             model.addAttribute("likeablePeople", likeablePeople);
         }
+
 
         return "usr/likeablePerson/toList";
     }

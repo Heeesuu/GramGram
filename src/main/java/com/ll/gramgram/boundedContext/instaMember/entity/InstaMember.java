@@ -58,7 +58,8 @@ public class InstaMember extends InstaMemberBase {
     public String getGenderDisplayName() {
         return switch (gender) {
             case "W" -> "여성";
-            default -> "남성";
+            case "M" -> "남성";
+            default -> "전체";
         };
     }
 
