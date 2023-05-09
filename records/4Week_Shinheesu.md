@@ -103,8 +103,57 @@ else if (gender.equals("W")) {
 > "남성" 인 유저목록과 똑같이 적용하면 된다.
 
 
+<br>
+
+#### 서비스에서 비즈니스 로직 구현
+
+```java
+public List<LikeablePerson> getLikeablePeopleByGender(String gender, InstaMember instaMember) {
+        List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
+
+        if (gender != null) {
+            if (gender.equals("M")) {
+                likeablePeople = likeablePeople.stream()
+                        .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("남성"))
+                        .collect(Collectors.toList());
+            } else if (gender.equals("W")) {
+                likeablePeople = likeablePeople.stream()
+                        .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("여성"))
+                        .collect(Collectors.toList());
+            }
+        }
+
+        return likeablePeople;
+    }
+```
+
+> 서비스 코드에 getLikeablePeopleByGender라는 메서드를 만들어서 성별을 구분하는 로직은 서비스에서 실행할수 있도록 하였다.
+
+
+```java
+@PreAuthorize("isAuthenticated()")
+    @GetMapping("/toList")
+    public String showToList(@RequestParam(value = "gender", required = false) String gender, Model model) {
+        InstaMember instaMember = rq.getMember().getInstaMember();
+
+        if (instaMember != null) {
+            List<LikeablePerson> likeablePeople = likeablePersonService.getLikeablePeopleByGender(gender, instaMember);
+            model.addAttribute("likeablePeople", likeablePeople);
+        }
+
+        return "usr/likeablePerson/toList";
+    }
+```
+> 컨트롤러 코드에서도 서비스코드와 연결시켰다.
  
 
+<br>
+
+#### 배포작업
+
+네이버클라우드 플랫폼을 이용하여 배포하였다.
+
+> www.likeyour.site
 
 <br>
 
