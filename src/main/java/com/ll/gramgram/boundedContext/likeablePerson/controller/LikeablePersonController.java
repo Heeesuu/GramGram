@@ -138,7 +138,6 @@ public class LikeablePersonController {
 
             if (gender != null) {
 
-
                 if (gender.equals("M")) {
                     likeablePeople = likeablePeople.stream()
                             .filter(likeablePerson -> likeablePerson.getFromInstaMember().getGenderDisplayName().equals("남성"))
